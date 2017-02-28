@@ -1,0 +1,16 @@
+---
+- block:
+    - name: "template out goss file"
+      template:
+        src: "{{ goss_file }}.j2"
+        dest: "/tmp/{{ goss_file | basename }}"
+    
+    - name: "run goss tests"
+      goss:
+        path: "/tmp/{{ goss_file | basename }}"
+
+  always: 
+    - name: "remove goss file"
+      file:
+        path: "/tmp/{{ goss_file | basename }}"
+        state: absent
